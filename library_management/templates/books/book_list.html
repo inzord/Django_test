@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список книг</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .filter-form {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Список книг</h1>
+
+    <!-- Форма для фильтрации по автору -->
+    <form method="GET" action="" class="filter-form">
+        <label for="author">Фильтр:</label>
+        <input type="text" id="author" name="author" value="{{ request.GET.author }}" placeholder="Введите имя автора">
+        <button type="submit">Фильтровать</button>
+    </form>
+
+    <table>
+        <tr>
+            <th>Название</th>
+            <th>Автор</th>
+            <th>Дата публикации</th>
+            <th>Статус доступности</th>
+            <th>Действия</th>
+        </tr>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.published_date }}</td>
+            <td>{{ book.is_available|yesno:"Доступна,Недоступна" }}</td>
+            <td>
+                <a href="{% url 'update_book' book.pk %}">Изменить</a>
+                <a href="{% url 'delete_book' book.pk %}">Удалить</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">Нет доступных книг.</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'add_book' %}">Добавить книгу</a>
+</body>
+</html>

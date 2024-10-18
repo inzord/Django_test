@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список читателей</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Список читателей</h1>
+    <table>
+        <tr>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Действия</th>
+        </tr>
+        {% for reader in readers %}
+        <tr>
+            <td>{{ reader.first_name }}</td>
+            <td>{{ reader.last_name }}</td>
+            <td>
+                <a href="{% url 'reader_update' reader.pk %}">Изменить</a>
+                <a href="{% url 'reader_delete' reader.pk %}">Удалить</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">Нет доступных читателей.</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'reader_create' %}">Добавить читателя</a>
+</body>
+</html>
+
+Найти еще
